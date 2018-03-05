@@ -9,3 +9,4 @@ pipeline:
     repo: ontrif/net-metrics
     when:
       event: tag
+    secrets: [ docker_username, docker_password ]
