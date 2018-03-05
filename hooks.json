@@ -1,0 +1,11 @@
+[
+  {
+    "id": "conns_histogram",
+    "execute-command": "/srv/conns_histogram.py",
+    "command-working-directory": "/srv",
+    "include-command-output-in-response": true,
+    "pass-arguments-to-command": [
+        {"source": "url", "name": "port"}
+    ]
+  }
+]
