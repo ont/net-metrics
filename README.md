@@ -13,7 +13,7 @@ docker run \
 
 Then get metrics with:
 ```
-curl 'localhost:9000/hooks/conns_historgram?port=443'
+curl 'localhost:9000/hooks/conns_histogram?port=443'
 ...
 [{"hosts": 3573, "pconns": 2}, {"hosts": 2, "pconns": 9}, {"hosts": 3102, "pconns": 1}]
 ```
