@@ -7,16 +7,18 @@ import subprocess
 from collections import Counter
 
 def ips():
-    r = re.compile(r":" + sys.argv[1] + r"\b" )
-    p = subprocess.Popen("netstat -ant", shell=True, stdout=subprocess.PIPE)
+    r_dport = re.compile(r"dport=" + sys.argv[1] + r"\b" )
+    r_src = re.compile(r"src=(\S+)")
+
+    p = subprocess.Popen("conntrack -L", shell=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+
     for line in p.stdout.readlines():
         line = line.decode('utf-8')
-        if r.search(line) and "ESTABLISHED" in line:
-            client_ip_port = line.split()[4]
-            ip = client_ip_port.split(':')[0]
-            yield ip
+        if r_dport.search(line) and "ESTABLISHED" in line:
+            m = r_src.search(line)
+            if m:
+                yield m.group(1)
 
 c = Counter(ips())
 data = [{"hosts" : hosts, "pconns": pconns} for pconns, hosts in Counter(c.values()).items()]
 print(json.dumps(data))
-
